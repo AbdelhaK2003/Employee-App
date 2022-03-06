@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 //import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login/Screens/AddWork/AddWork.dart';
 import 'package:login/Screens/ChatPage/ChatPage.dart';
 import 'package:login/Screens/FavoritePage/FavoritePage.dart';
@@ -12,6 +14,7 @@ import 'package:login/Screens/ProfilePage/ProfilePage.dart';
 import 'package:login/Screens/SearchPage/SearchPage.dart';
 import 'package:login/Widgets/NavDrawerWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:login/model.dart';
 import 'package:login/screens/sign_in/sign_in_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,6 +27,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //This index is for identify pages
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("Utilisateur")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   int Sindex = 0;
   PageController _pageController = PageController(initialPage: 0);
 
@@ -98,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             Sindex = newIndex;
           });
         },
-        children: [
+        children: <Widget>[
           EmpPage(),
           ChatPage(),
           SearchPage(),
