@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class SearchPage extends StatelessWidget {
+  static String routeName = "/searchpage";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
