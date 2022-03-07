@@ -12,8 +12,6 @@ import 'package:login/Screens/ProfilePage/ProfilePage.dart';
 import 'package:login/Widgets/NavDrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/SearchPage/SearchPage.dart';
-import 'package:login/screens/sign_in/sign_in_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/Homepage";
