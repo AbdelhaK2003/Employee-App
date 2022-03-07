@@ -1,7 +1,5 @@
 //import 'dart:js';
 
-import 'dart:js';
-
 import 'package:flutter/widgets.dart';
 import 'package:login/screens/ChatPage/ChatPage.dart';
 import 'package:login/screens/HomePage/Homepage.dart';
