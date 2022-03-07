@@ -167,6 +167,7 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) {
           setState(() {
             // For switch the buttom navigation bar and pages at the same time
+
             _pageController.animateToPage(index,
                 duration: Duration(milliseconds: 500), curve: Curves.ease);
           });
