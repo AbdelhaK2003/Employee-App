@@ -31,6 +31,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? path;
   String? job = "Chanteur";
   String? localisation = "Agadir";
+  String? username;
   final _auth = FirebaseAuth.instance;
   late Future<String> link;
   _imgFromCamera() async {
@@ -413,9 +414,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
     UserModel userModel = UserModel();
     String url = await _uploadphotofile(_image);
-    print("ewa siiir" + url);
     // writing all the values
-    userModel.email = user!.email;
+    String n = user!.email!.replaceAll("@gmail.com", "");
+    userModel.email = user.email;
     userModel.uid = user.uid;
     userModel.password = widget.password;
     userModel.Firstname = firstName;
@@ -426,6 +427,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     userModel.job = job;
     userModel.description = address;
     userModel.Adress = localisation;
+    userModel.username = n;
     await firebaseFirestore
         .collection("Utilisateur")
         .doc(user.uid)

@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:login/screens/ChatPage/ChatPage.dart';
+
 class UserModel {
   String? uid;
   String? Firstname;
@@ -10,6 +14,8 @@ class UserModel {
   String? job;
   String? Adress;
   String? description;
+  String? username;
+  User? user = FirebaseAuth.instance.currentUser;
   UserModel({
     this.uid,
     this.email,
@@ -21,7 +27,14 @@ class UserModel {
     this.job,
     this.Adress,
     this.description,
+    this.username,
   });
+  Future<Stream<QuerySnapshot>> getUserByUserName(String username) async {
+    return FirebaseFirestore.instance
+        .collection("Utilisateur")
+        .where("username", isEqualTo: username)
+        .snapshots();
+  }
 
   // receiving data from server
   factory UserModel.fromMap(map) {
@@ -36,6 +49,7 @@ class UserModel {
       image: map['image'],
       job: map['job'],
       description: map['description'],
+      username: map['username'],
     );
   }
 
@@ -52,6 +66,77 @@ class UserModel {
       'job': job,
       'description': description,
       'Adress': Adress,
+      'username': username,
     };
+  }
+
+  Future addUserInfoToDB(
+      String userId, Map<String, dynamic> userInfoMap) async {
+    return FirebaseFirestore.instance
+        .collection("Utilisateur")
+        .doc(email)
+        .set(userInfoMap);
+  }
+
+  Future addMessage(String chatRoomId, String messageId,
+      Map<String, dynamic> messageInfoMap) async {
+    return FirebaseFirestore.instance
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .collection("chats")
+        .doc(messageId)
+        .set(messageInfoMap);
+  }
+
+  updateLastMessageSend(
+      String chatRoomId, Map<String, dynamic> lastMessageInfoMap) {
+    return FirebaseFirestore.instance
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .update(lastMessageInfoMap);
+  }
+
+  createChatRoom(
+      String chatRoomId, Map<String, dynamic> chatRoomInfoMap) async {
+    final snapShot = await FirebaseFirestore.instance
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .get();
+
+    if (snapShot.exists) {
+      // chatroom already exists
+      return true;
+    } else {
+      // chatroom does not exists
+      return FirebaseFirestore.instance
+          .collection("chatrooms")
+          .doc(chatRoomId)
+          .set(chatRoomInfoMap);
+    }
+  }
+
+  Future<Stream<QuerySnapshot>> getChatRoomMessages(chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy("ts", descending: true)
+        .snapshots();
+  }
+
+  Future<Stream<QuerySnapshot>> getChatRooms() async {
+    String? myUsername = user!.email!.replaceAll("@gmail.com", "");
+    return FirebaseFirestore.instance
+        .collection("chatrooms")
+        .orderBy("lastMessageSendTs", descending: true)
+        .where("Utilisateur", arrayContains: myUsername)
+        .snapshots();
+  }
+
+  Future<QuerySnapshot> getUserInfo(String usern) async {
+    return await FirebaseFirestore.instance
+        .collection("Utilisateur")
+        .where("username", isEqualTo: usern)
+        .get();
   }
 }
