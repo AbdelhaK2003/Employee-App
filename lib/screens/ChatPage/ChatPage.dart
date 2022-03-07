@@ -55,7 +55,8 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget searchListUserTile({String? profileUrl, name, username, email}) {
+  Widget searchListUserTile(
+      {String? profileUrl, fname, lname, username, email}) {
     return GestureDetector(
       onTap: () {
         print(user!.email!.replaceAll("@gmail.com", ""));
@@ -68,7 +69,8 @@ class _ChatPageState extends State<ChatPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ChatScreen(username, name)));
+                builder: (context) =>
+                    ChatScreen(username, fname, lname, profileUrl!)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8),
@@ -85,7 +87,7 @@ class _ChatPageState extends State<ChatPage> {
             SizedBox(width: 12),
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text(name), Text(email)])
+                children: [Text(fname + " " + lname), Text(email)])
           ],
         ),
       ),
@@ -104,7 +106,8 @@ class _ChatPageState extends State<ChatPage> {
                   DocumentSnapshot ds = snapshot.data!.docs[index];
                   return searchListUserTile(
                       profileUrl: ds["image"],
-                      name: ds["Firstname"],
+                      fname: ds["Firstname"],
+                      lname: ds["Lastname"],
                       email: ds["email"],
                       username: ds["username"]);
                 },
@@ -216,13 +219,14 @@ class ChatRoomListTile extends StatefulWidget {
 }
 
 class _ChatRoomListTileState extends State<ChatRoomListTile> {
-  String profilePicUrl = "", name = "", username = "";
+  String profilePicUrl = "", fname = "", lname = "", username = "";
 
   getThisUserInfo() async {
     username =
         widget.chatRoomId.replaceAll(widget.myUsername, "").replaceAll("_", "");
     QuerySnapshot querySnapshot = await UserModel().getUserInfo(username);
-    name = "${querySnapshot.docs[0]["Firstname"]}";
+    fname = "${querySnapshot.docs[0]["Firstname"]}";
+    lname = "${querySnapshot.docs[0]["Lastname"]}";
     profilePicUrl = "${querySnapshot.docs[0]["image"]}";
     setState(() {});
   }
@@ -240,7 +244,8 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ChatScreen(username, name)));
+                builder: (context) =>
+                    ChatScreen(username, fname, lname, profilePicUrl)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8),
@@ -259,7 +264,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name,
+                  fname + " " + lname,
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 3),

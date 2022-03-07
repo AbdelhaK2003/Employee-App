@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login/model.dart';
 import 'package:login/screens/ChatPage/ChatPage.dart';
+import 'package:login/screens/size_config.dart';
 import 'package:random_string/random_string.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String chatWithUsername, name;
-  ChatScreen(this.chatWithUsername, this.name);
+  final String chatWithUsername, fname, lname, imageurl;
+  ChatScreen(this.chatWithUsername, this.fname, this.lname, this.imageurl);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -93,7 +94,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   bottomLeft:
                       sendByMe ? Radius.circular(24) : Radius.circular(0),
                 ),
-                color: sendByMe ? Colors.blue : Color.fromARGB(255, 92, 88, 84),
+                color: sendByMe
+                    ? Color(0xEB1E1F69)
+                    : Color.fromARGB(255, 92, 88, 84),
               ),
               padding: EdgeInsets.all(16),
               child: Text(
@@ -146,8 +149,25 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name),
-      ),
+          title: Container(
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.network(
+                    widget.imageurl,
+                    height: 40,
+                    width: 40,
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(widget.fname + " " + widget.lname),
+              ],
+            ),
+          ),
+          backgroundColor: Color.fromARGB(235, 30, 31, 105)),
       body: Container(
         child: Stack(
           children: [
@@ -155,30 +175,42 @@ class _ChatScreenState extends State<ChatScreen> {
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
-                color: Colors.black.withOpacity(0.8),
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                color: Colors.white,
+                height: 70,
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Row(
                   children: [
                     Expanded(
-                        child: TextField(
+                        child: TextFormField(
                       controller: messageTextEdittingController,
                       onChanged: (value) {
                         addMessage(false);
                       },
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "type a message",
-                          hintStyle:
-                              TextStyle(color: Colors.white.withOpacity(0.6))),
+                        border: InputBorder.none,
+                        hintText: "type a message",
+                        hintStyle: TextStyle(
+                            color:
+                                Color.fromARGB(255, 0, 0, 0).withOpacity(0.6)),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2,
+                              color: Color.fromARGB(235, 30, 31, 105)),
+                          borderRadius: new BorderRadius.circular(25.0),
+                        ),
+                      ),
                     )),
+                    Text(
+                      "    ",
+                    ),
                     GestureDetector(
                       onTap: () {
                         addMessage(true);
                       },
                       child: Icon(
                         Icons.send,
-                        color: Colors.white,
+                        color: Color(0xEB1E1F69),
                       ),
                     )
                   ],
