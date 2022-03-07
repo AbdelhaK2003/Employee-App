@@ -14,7 +14,7 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: Center(child: Text('Favorite page')),
+      child: Center(child: Text('Fhryi')),
     );
   }
 }

@@ -116,24 +116,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildLastNameFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPhoneNumberFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          SizedBox(
-              width: 380,
-              height: 60,
-              child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255,
-                        255), //background color of dropdown button
-                    border: Border.all(
-                        color: Color(0xEB1E1F69),
-                        width: 2), //border of dropdown button
-                    borderRadius: BorderRadius.circular(
-                        25.0), //border raiuds of dropdown button
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 36, right: 30, top: 5),
-                    child: buildOccupationBox(),
-                  ))),
+          //SizedBox(height: getProportionateScreenHeight(30)),
+
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(30)),
           SizedBox(
@@ -153,8 +137,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                     padding: EdgeInsets.only(left: 36, right: 30, top: 5),
                     child: buildlocalisationBox(),
                   ))),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildAddressFormField(),
+
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "continue",
@@ -204,39 +187,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         });
   }
 
-  TextFormField buildAddressFormField() {
-    return TextFormField(
-      onSaved: (newValue) => address = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kAddressNullError);
-        }
-        return null;
-      },
-      maxLines: 4,
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kAddressNullError);
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelStyle: TextStyle(
-          color: Color(0xEB1E1F69),
-          fontSize: 20,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
-          borderRadius: new BorderRadius.circular(25.0),
-        ),
-        labelText: "Description",
-        hintText: "Donner plus de détails",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
   DropdownButton buildlocalisationBox() {
     return DropdownButton<String>(
       value: localisation,
@@ -259,29 +209,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return DropdownMenuItem<String>(
           value: valuea,
           child: Text(valuea),
-        );
-      }).toList(),
-    );
-  }
-
-  DropdownButton buildOccupationBox() {
-    return DropdownButton<String>(
-      value: job,
-      elevation: 16,
-      style: const TextStyle(color: Color.fromARGB(235, 0, 0, 0), fontSize: 17),
-      onChanged: (String? newValue) {
-        setState(() {
-          job = newValue!;
-        });
-      },
-      items: <String>[
-        'Chanteur',
-        'Professeur',
-        'Dancer',
-      ].map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
         );
       }).toList(),
     );
@@ -424,10 +351,11 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     userModel.nombre = phoneNumber;
     userModel.image = url;
     userModel.Adress = address;
-    userModel.job = job;
-    userModel.description = address;
+    userModel.job = "without";
+    userModel.description = "without";
     userModel.Adress = localisation;
     userModel.username = n;
+    userModel.price = -1;
     await firebaseFirestore
         .collection("Utilisateur")
         .doc(user.uid)

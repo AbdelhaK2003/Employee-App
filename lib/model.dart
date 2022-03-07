@@ -6,7 +6,6 @@ class UserModel {
   String? uid;
   String? Firstname;
   String? Lastname;
-  //String? Adress;
   String? nombre;
   String? email;
   String? password;
@@ -15,20 +14,21 @@ class UserModel {
   String? Adress;
   String? description;
   String? username;
+  int? price;
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel({
-    this.uid,
-    this.email,
-    this.Firstname,
-    this.Lastname,
-    this.password,
-    this.nombre,
-    this.image,
-    this.job,
-    this.Adress,
-    this.description,
-    this.username,
-  });
+  UserModel(
+      {this.uid,
+      this.email,
+      this.Firstname,
+      this.Lastname,
+      this.password,
+      this.nombre,
+      this.image,
+      this.job,
+      this.Adress,
+      this.description,
+      this.username,
+      this.price});
   Future<Stream<QuerySnapshot>> getUserByUserName(String username) async {
     return FirebaseFirestore.instance
         .collection("Utilisateur")
@@ -50,6 +50,7 @@ class UserModel {
       job: map['job'],
       description: map['description'],
       username: map['username'],
+      price: map['price'],
     );
   }
 
@@ -67,6 +68,7 @@ class UserModel {
       'description': description,
       'Adress': Adress,
       'username': username,
+      'price': price,
     };
   }
 
