@@ -1,6 +1,7 @@
 //import 'dart:js';
 
 import 'package:flutter/widgets.dart';
+import 'package:login/screens/ChatPage/ChatPage.dart';
 import 'package:login/screens/HomePage/Homepage.dart';
 import 'package:login/screens/complete_profile/complete_profile_screen.dart';
 import 'package:login/screens/forgot_password/forgot_password_screen.dart';
@@ -15,4 +16,5 @@ final Map<String, WidgetBuilder> routes = {
   SignUpScreen.routeName: (context) => SignUpScreen(),
   //CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
   HomePage.routeName: (context) => HomePage(),
+  ChatPage.routeName: (context) => ChatPage(),
 };

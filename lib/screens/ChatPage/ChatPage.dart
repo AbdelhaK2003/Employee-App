@@ -7,7 +7,7 @@ import '../Chat_Screen/chatscreen.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
-
+  static String routeName = "/Chat_page";
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -47,8 +47,11 @@ class _ChatPageState extends State<ChatPage> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   DocumentSnapshot ds = snapshot.data!.docs[index];
-                  return ChatRoomListTile(ds["lastMessage"], ds.id,
-                      user!.email!.replaceAll("@gmail.com", ""));
+                  return ChatRoomListTile(
+                      ds["lastMessage"],
+                      ds.id,
+                      user!.email!.replaceAll("@gmail.com", ""),
+                      ds["lastMessageSendTs"]);
                 })
             : Center(child: CircularProgressIndicator());
       },
@@ -212,7 +215,9 @@ class _ChatPageState extends State<ChatPage> {
 
 class ChatRoomListTile extends StatefulWidget {
   final String lastMessage, chatRoomId, myUsername;
-  ChatRoomListTile(this.lastMessage, this.chatRoomId, this.myUsername);
+  Timestamp time;
+  ChatRoomListTile(
+      this.lastMessage, this.chatRoomId, this.myUsername, this.time);
 
   @override
   _ChatRoomListTileState createState() => _ChatRoomListTileState();
@@ -220,7 +225,6 @@ class ChatRoomListTile extends StatefulWidget {
 
 class _ChatRoomListTileState extends State<ChatRoomListTile> {
   String profilePicUrl = "", fname = "", lname = "", username = "";
-
   getThisUserInfo() async {
     username =
         widget.chatRoomId.replaceAll(widget.myUsername, "").replaceAll("_", "");
@@ -240,41 +244,53 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    ChatScreen(username, fname, lname, profilePicUrl)));
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.network(
-                profilePicUrl,
-                height: 40,
-                width: 40,
-              ),
-            ),
-            SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  fname + " " + lname,
-                  style: TextStyle(fontSize: 16),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ChatScreen(username, fname, lname, profilePicUrl)));
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Image.network(
+                  profilePicUrl,
+                  height: 45,
+                  width: 45,
                 ),
-                SizedBox(height: 3),
-                Text(widget.lastMessage)
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+              ),
+              SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    fname + " " + lname,
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                  Row(children: [
+                    SizedBox(height: 3),
+                    Text(widget.lastMessage, style: TextStyle(fontSize: 16)),
+                    Text(
+                      " . " +
+                          widget.time.toDate().day.toString() +
+                          "/" +
+                          widget.time.toDate().month.toString() +
+                          " " +
+                          widget.time.toDate().hour.toString() +
+                          ":" +
+                          widget.time.toDate().minute.toString(),
+                      textAlign: TextAlign.end,
+                    ),
+                  ])
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
 

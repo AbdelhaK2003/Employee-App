@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login/model.dart';
-import 'package:login/screens/ChatPage/ChatPage.dart';
-import 'package:login/screens/size_config.dart';
 import 'package:random_string/random_string.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -22,10 +20,6 @@ class _ChatScreenState extends State<ChatScreen> {
   TextEditingController messageTextEdittingController = TextEditingController();
   UserModel DatabaseMethods = new UserModel();
   getMyInfoFromSharedPreference() async {
-    //myName = (await SharedPreferenceHelper().getDisplayName())!;
-    // myProfilePic = (await SharedPreferenceHelper().getUserProfileUrl())!;
-    // myUserName = (await SharedPreferenceHelper().getUserName())!;
-    //myEmail = (await SharedPreferenceHelper().getUserEmail())!;
     chatRoomId = getChatRoomIdByUsernames(
         widget.chatWithUsername, user!.email!.replaceAll("@gmail.com", ""));
   }
@@ -96,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 color: sendByMe
                     ? Color(0xEB1E1F69)
-                    : Color.fromARGB(255, 92, 88, 84),
+                    : Color.fromARGB(255, 92, 90, 89),
               ),
               padding: EdgeInsets.all(16),
               child: Text(
@@ -149,6 +143,9 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Color.fromARGB(255, 255, 255, 255), //change your color here
+          ),
           title: Container(
             child: Row(
               children: [
@@ -156,8 +153,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
                     widget.imageurl,
-                    height: 40,
-                    width: 40,
+                    height: 35,
+                    width: 35,
                   ),
                 ),
                 SizedBox(
