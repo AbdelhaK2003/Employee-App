@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/AddWork/AddWork.dart';
+import 'package:login/screens/AddWork/UpdateDeleteWork.dart';
 
 class EmpPage extends StatefulWidget {
   const EmpPage({Key? key}) : super(key: key);
@@ -12,19 +14,39 @@ class EmpPage extends StatefulWidget {
 class _EmpPageState extends State<EmpPage> {
   final Stream<QuerySnapshot> users =
       FirebaseFirestore.instance.collection('Utilisateur').snapshots();
-
+  Map<String, dynamic>? dt;
   @override
   Widget build(BuildContext context) {
+    final _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xEB1E1F69),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddWork()),
-            );
+          child: FutureBuilder(
+              future: _fetch(),
+              builder: (context, snapshot) {
+                if (dt?['price'] == -1) {
+                  return Icon(Icons.add, color: Colors.white);
+                } else {
+                  return Icon(Icons.edit, color: Colors.white);
+                }
+              }),
+          onPressed: () async {
+            var collection =
+                FirebaseFirestore.instance.collection('Utilisateur');
+            var docSnapshot = await collection.doc(user!.uid).get();
+
+            Map<String, dynamic>? data = docSnapshot.data();
+            // var value = data?['job'];
+            if (data?['price'] != -1 ||
+                data?['job'] != "without" ||
+                data?['description'] != "without") {
+              Navigator.pushNamed(context, UpdateDeleteWork.routeName);
+            } else {
+              Navigator.pushNamed(context, AddWork.routeName);
+            }
           },
-          child: Icon(Icons.add, color: Colors.white),
         ),
         body: Center(
             child: ListView(children: [
@@ -132,6 +154,14 @@ class _EmpPageState extends State<EmpPage> {
         child: Icon(Icons.add, color: Colors.white),
       ),
     ); */
+  }
+
+  _fetch() async {
+    final _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
+    var collection = FirebaseFirestore.instance.collection('Utilisateur');
+    var docSnapshot = await collection.doc(user!.uid).get();
+    dt = docSnapshot.data();
   }
 }
 /* Card(

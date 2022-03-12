@@ -3,10 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:login/Screens/AddWork/AddWork.dart';
+import '../AddWork/FunctionsUpDe.dart';
 import 'ResultsOfsearch.dart';
 
 class SearchFields extends StatefulWidget {
   String JobDB = "";
+  String timeDB = "";
 
   //const SearchFields({Key? key}) : super(key: key);
   @override
@@ -17,6 +20,7 @@ class _SearchFieldsState extends State<SearchFields> {
   //The selected job type  --------------------------------->
   //And the variable to use in DataBase for search for this type of employees !!!!
   String JobType = 'Professor';
+  String time = 'Hour';
   final Joblist = [
     'Professor',
     'Carpenter',
@@ -24,7 +28,14 @@ class _SearchFieldsState extends State<SearchFields> {
     'Mechanical',
     'Smith'
   ]; //used var !!!
-
+  bool Sunday = false;
+  bool Monday = false;
+  bool Tuesday = false;
+  bool Wednesday = false;
+  bool Thursday = false;
+  bool Friday = false;
+  bool Saturday = false;
+  List<String> DaysSelected = ['', '', '', '', '', '', ''];
   //These variables are for The Form widget below !!!
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textEditingController = TextEditingController();
@@ -61,9 +72,11 @@ class _SearchFieldsState extends State<SearchFields> {
     "Inezgane",
   ];
   String CityDB = ""; // TO-DO : we need to add the city of the current user
-  String JobDB = "";
+  String JobDB = "Professor";
+  String timeDB = "Hour";
   int minDB = 0;
   int maxDB = 9999;
+  String dy = "";
   //var to know if the max bigger than min and allow display a text error
   String error = "";
   @override
@@ -183,10 +196,19 @@ class _SearchFieldsState extends State<SearchFields> {
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 40),
-                  child: Text("Select the price/hour in DH"),
+                  child: Text("Price/Time"),
+                )),
+            Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: Text(
+                    "Price : ",
+                    style: TextStyle(color: Colors.black),
+                  ),
                 )),
             SizedBox(
-              height: 10,
+              height: 3,
             ),
             Row(
               children: [
@@ -240,10 +262,204 @@ class _SearchFieldsState extends State<SearchFields> {
                 ),
               ),
             ),
+            Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: Text(
+                    "Time : ",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                )),
             SizedBox(
-              height: 250,
+              height: 3,
             ),
-
+            Container(
+              width: 295,
+              height: 55,
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Color.fromARGB(255, 105, 105, 105), width: 1),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              //Here the list of all services you can find in the app !
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  hint: Text('Time'),
+                  value: time,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  elevation: 16,
+                  isExpanded: true,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      time = newValue!;
+                      timeDB = time;
+                      print(JobDB);
+                    });
+                  },
+                  //Here we give all the Jobs list ------------------------------->
+                  items: <String>['Hour', 'Day', 'Month']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: Text("Days"),
+              ),
+            ),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 28),
+                      child: ChoiceChip(
+                        backgroundColor:
+                            Color(Color.fromARGB(235, 68, 68, 68).value),
+                        labelStyle: TextStyle(
+                            color: Color.fromARGB(255, 247, 247, 247)),
+                        selectedColor:
+                            Color(Color.fromARGB(235, 62, 63, 145).value),
+                        label: const Text('Sunday'),
+                        selected: Sunday,
+                        onSelected: (newValue) {
+                          setState(() {
+                            Sunday = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: ChoiceChip(
+                        backgroundColor:
+                            Color(Color.fromARGB(235, 68, 68, 68).value),
+                        labelStyle: TextStyle(
+                            color: Color.fromARGB(255, 247, 247, 247)),
+                        selectedColor:
+                            Color(Color.fromARGB(235, 62, 63, 145).value),
+                        label: const Text('Monday'),
+                        selected: Monday,
+                        onSelected: (newValue) {
+                          setState(() {
+                            Monday = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: ChoiceChip(
+                        backgroundColor:
+                            Color(Color.fromARGB(235, 68, 68, 68).value),
+                        labelStyle: TextStyle(
+                            color: Color.fromARGB(255, 247, 247, 247)),
+                        selectedColor:
+                            Color(Color.fromARGB(235, 62, 63, 145).value),
+                        label: const Text('Tuesday'),
+                        selected: Tuesday,
+                        onSelected: (newValue) {
+                          setState(() {
+                            Tuesday = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: ChoiceChip(
+                        backgroundColor:
+                            Color(Color.fromARGB(235, 68, 68, 68).value),
+                        labelStyle: TextStyle(
+                            color: Color.fromARGB(255, 247, 247, 247)),
+                        selectedColor:
+                            Color(Color.fromARGB(235, 62, 63, 145).value),
+                        label: const Text('Wednesday'),
+                        selected: Wednesday,
+                        onSelected: (newValue) {
+                          setState(() {
+                            Wednesday = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 70),
+                      child: ChoiceChip(
+                        backgroundColor:
+                            Color(Color.fromARGB(235, 68, 68, 68).value),
+                        labelStyle: TextStyle(
+                            color: Color.fromARGB(255, 247, 247, 247)),
+                        selectedColor:
+                            Color(Color.fromARGB(235, 62, 63, 145).value),
+                        label: const Text('Thursday'),
+                        selected: Thursday,
+                        onSelected: (newValue) {
+                          setState(() {
+                            Thursday = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: ChoiceChip(
+                        backgroundColor:
+                            Color(Color.fromARGB(235, 68, 68, 68).value),
+                        labelStyle: TextStyle(
+                            color: Color.fromARGB(255, 247, 247, 247)),
+                        selectedColor:
+                            Color(Color.fromARGB(235, 62, 63, 145).value),
+                        label: const Text('Friday'),
+                        selected: Friday,
+                        onSelected: (newValue) {
+                          setState(() {
+                            Friday = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: ChoiceChip(
+                        backgroundColor:
+                            Color(Color.fromARGB(235, 68, 68, 68).value),
+                        labelStyle: TextStyle(
+                            color: Color.fromARGB(255, 247, 247, 247)),
+                        selectedColor:
+                            Color(Color.fromARGB(235, 62, 63, 145).value),
+                        label: const Text('Saturday'),
+                        selected: Saturday,
+                        onSelected: (newValue) {
+                          setState(() {
+                            Saturday = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 80,
+            ),
             //Here the button search
             SizedBox(
               width: 300,
@@ -251,54 +467,38 @@ class _SearchFieldsState extends State<SearchFields> {
               child: ElevatedButton(
                 child: const Text('Search'),
                 onPressed: () {
+                  DaysSelected[0] = tests(Monday, 'Monday');
+                  DaysSelected[1] = tests(Tuesday, 'Tuesday');
+                  DaysSelected[2] = tests(Wednesday, 'Wednesday');
+                  DaysSelected[3] = tests(Thursday, 'Thursday');
+                  DaysSelected[4] = tests(Friday, 'Friday');
+                  DaysSelected[5] = tests(Saturday, 'Saturday');
+                  DaysSelected[6] = tests(Sunday, 'Sunday');
+                  dy = DaysSelected[0] +
+                      '-' +
+                      DaysSelected[1] +
+                      '-' +
+                      DaysSelected[2] +
+                      '-' +
+                      DaysSelected[3] +
+                      '-' +
+                      DaysSelected[4] +
+                      '-' +
+                      DaysSelected[5] +
+                      '-' +
+                      DaysSelected[6];
+                  print(dy);
+                  if (dy == '------') {
+                  } else {}
                   //TO-DO : Search for the selected choices in DataBase
                   //and move to another page or change the contenue of the search page
-                  if (minController.text.isEmpty &&
-                      maxController.text.isEmpty) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResultsOftsearch(
-                              City: CityDB,
-                              Job: JobDB,
-                              min: minDB,
-                              max: maxDB)),
-                    );
-                  } else if (minController.text.isEmpty &&
-                      maxController.text.isNotEmpty) {
-                    setState(() {
-                      maxDB = int.parse(maxController.text);
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResultsOftsearch(
-                              City: CityDB,
-                              Job: JobDB,
-                              min: minDB,
-                              max: maxDB)),
-                    );
-                  } else if (minController.text.isNotEmpty &&
-                      maxController.text.isEmpty) {
-                    setState(() {
-                      minDB = int.parse(minController.text);
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResultsOftsearch(
-                              City: CityDB,
-                              Job: JobDB,
-                              min: minDB,
-                              max: maxDB)),
-                    );
-                  } else {
-                    setState(() {
-                      minDB = int.parse(minController.text);
-                      maxDB = int.parse(maxController.text);
-                    });
-                    functionMaxMin();
-                  }
+                  minDB = minController.text.isEmpty
+                      ? minDB
+                      : int.parse(minController.text);
+                  maxDB = maxController.text.isEmpty
+                      ? maxDB
+                      : int.parse(maxController.text);
+                  functionMaxMin();
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color(Color(0xEB1E1F69).value),
@@ -319,7 +519,13 @@ class _SearchFieldsState extends State<SearchFields> {
         context,
         MaterialPageRoute(
             builder: (context) => ResultsOftsearch(
-                City: CityDB, Job: JobDB, min: minDB, max: maxDB)),
+                  City: CityDB,
+                  Job: JobDB,
+                  min: minDB,
+                  max: maxDB,
+                  days: dy,
+                  time: timeDB,
+                )),
       );
     } else {
       setState(() {

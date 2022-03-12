@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart'; /* 
-import 'package:provider/provider.dart'; */
-import 'SearchFields.dart';
 
 class ResultsOftsearch extends StatefulWidget {
   String City;
   String Job;
+  String days;
+  String time;
   late int min;
   late int max;
 
-  ResultsOftsearch(
-      {Key? key,
-      required final this.City,
-      required final this.Job,
-      required final this.min,
-      required final this.max})
-      : super(key: key);
+  ResultsOftsearch({
+    Key? key,
+    required final this.City,
+    required final this.Job,
+    required final this.min,
+    required final this.max,
+    required final this.days,
+    required final this.time,
+  }) : super(key: key);
 
   @override
   _ResultsOftsearchState createState() => _ResultsOftsearchState();
@@ -29,13 +30,27 @@ class _ResultsOftsearchState extends State<ResultsOftsearch> {
     String j = widget.Job;
     int mn = widget.min;
     int mx = widget.max;
-    final Stream<QuerySnapshot> users = FirebaseFirestore.instance
+    String dy = widget.days;
+    String tm = widget.time;
+    Stream<QuerySnapshot> users;
+
+    users = FirebaseFirestore.instance
         .collection('Utilisateur')
         .where("job", isEqualTo: j)
         .where("Adress", isEqualTo: c)
-        .where("Price", isGreaterThanOrEqualTo: mn)
-        .where("Price", isLessThanOrEqualTo: mx)
+        .where("availableDays", isEqualTo: dy)
+        .where("price", isGreaterThanOrEqualTo: mn)
+        .where("price", isLessThanOrEqualTo: mx)
+        .where("time", isEqualTo: tm)
         .snapshots();
+    if (dy == '------') {
+      users = FirebaseFirestore.instance
+          .collection('Utilisateur')
+          .where("job", isEqualTo: j)
+          .where("price", isGreaterThanOrEqualTo: mn)
+          .where("price", isLessThanOrEqualTo: mx)
+          .snapshots();
+    }
     print(c);
     print(j);
     print(mn);
@@ -68,7 +83,7 @@ class _ResultsOftsearchState extends State<ResultsOftsearch> {
                       children: [
                         CircularProgressIndicator(),
                         Text(
-                          'Waiting',
+                          'Loading...',
                           style: TextStyle(color: Color(0xEB1E1F69)),
                         ),
                       ],
@@ -120,9 +135,5 @@ class _ResultsOftsearchState extends State<ResultsOftsearch> {
         ]),
       ),
     );
-  }
-
-  String getjob() {
-    return widget.Job;
   }
 }

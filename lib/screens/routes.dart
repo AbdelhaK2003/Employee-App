@@ -1,6 +1,7 @@
 //import 'dart:js';
-
 import 'package:flutter/widgets.dart';
+import 'package:login/screens/AddWork/AddWork.dart';
+import 'package:login/screens/AddWork/UpdateDeleteWork.dart';
 import 'package:login/screens/ChatPage/ChatPage.dart';
 import 'package:login/screens/HomePage/Homepage.dart';
 import 'package:login/screens/SearchPage/SearchPage.dart';
@@ -19,4 +20,6 @@ final Map<String, WidgetBuilder> routes = {
   HomePage.routeName: (context) => HomePage(),
   ChatPage.routeName: (context) => ChatPage(),
   SearchPage.routeName: (context) => SearchPage(),
+  AddWork.routeName: (context) => AddWork(),
+  UpdateDeleteWork.routeName: (context) => UpdateDeleteWork(),
 };
