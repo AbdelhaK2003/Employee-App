@@ -4,7 +4,6 @@ import 'package:login/components/form_error.dart';
 import 'package:login/helper/keyboard.dart';
 import 'package:login/screens/HomePage/Homepage.dart';
 import 'package:login/screens/forgot_password/forgot_password_screen.dart';
-import 'package:login/screens/sign_up/sign_up_screen.dart';
 import '../../../components/default_button.dart';
 import 'package:login/screens/constants.dart';
 import 'package:login/screens/size_config.dart';
@@ -80,7 +79,6 @@ class _SignFormState extends State<SignForm> {
                     context: context,
                     builder: (ctx) => AlertDialog(
                       title: Text("Ops! Login Failed"),
-                      content: Text('${e.message}'),
                     ),
                   );
                 }

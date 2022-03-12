@@ -32,6 +32,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? job = "Chanteur";
   String? localisation = "Agadir";
   String? username;
+  String? age;
   final _auth = FirebaseAuth.instance;
   late Future<String> link;
   _imgFromCamera() async {
@@ -80,7 +81,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           Center(
             child: GestureDetector(
               onTap: () {
-                print(widget.email);
                 _showPicker(context);
               },
               child: CircleAvatar(
@@ -116,8 +116,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildLastNameFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPhoneNumberFormField(),
-          //SizedBox(height: getProportionateScreenHeight(30)),
-
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildAgeFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(30)),
           SizedBox(
@@ -137,7 +137,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                     padding: EdgeInsets.only(left: 36, right: 30, top: 5),
                     child: buildlocalisationBox(),
                   ))),
-
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "continue",
@@ -266,6 +265,25 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     );
   }
 
+  TextFormField buildAgeFormField() {
+    return TextFormField(
+      onSaved: (newValue) => age = newValue,
+      decoration: InputDecoration(
+        labelStyle: TextStyle(
+          color: Color(0xEB1E1F69),
+          fontSize: 20,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
+          borderRadius: new BorderRadius.circular(25.0),
+        ),
+        labelText: "Age",
+        hintText: "Entrer votre Age",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
   TextFormField buildFirstNameFormField() {
     return TextFormField(
       onSaved: (newValue) => firstName = newValue,
@@ -356,12 +374,12 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     userModel.Adress = localisation;
     userModel.username = n;
     userModel.price = -1;
+    userModel.age = "19";
     await firebaseFirestore
         .collection("Utilisateur")
         .doc(user.uid)
         .set(userModel.toMap());
-/*
-    Navigator.pushAndRemoveUntil(
+/* Navigator.pushAndRemoveUntil(
         (context),
         MaterialPageRoute(builder: (context) => SignInScreen()),
         (route) => false);*/

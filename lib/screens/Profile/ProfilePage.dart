@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:login/screens/OtherPages/SettingPage.dart';
 
 import '../../model.dart';
+import '../OtherPages/Update_Profile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -15,26 +15,17 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
-
-  getMyInfoFromSharedPreference() async {
+  @override
+  void initState() {
+    super.initState();
     FirebaseFirestore.instance
         .collection("Utilisateur")
         .doc(user!.uid)
         .get()
         .then((value) {
       this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
     });
-    setState(() {});
-  }
-
-  onScreenLoaded() async {
-    await getMyInfoFromSharedPreference();
-  }
-
-  @override
-  void initState() {
-    onScreenLoaded();
-    super.initState();
   }
 
   get borderRadius => BorderRadius.circular(8.0);
@@ -139,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Text("   "),
                   Icon(Icons.place, color: Color(0xEB1E1F69)),
                   Text(
-                    " " + loggedInUser.Adress! + " ",
+                    " " + loggedInUser.Adress.toString() + "  ",
                     style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   Icon(Icons.watch_later, color: Color(0xEB1E1F69)),
@@ -159,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SettingsPage()),
+                                builder: (context) => Updatescreen()),
                           );
                         },
                         child: Container(
@@ -203,7 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       label: Text(
                     'Phone :',
                     style: TextStyle(
-                        color: Color(0xFF464444),
+                        color: Color.fromARGB(255, 0, 0, 0),
                         fontStyle: FontStyle.normal,
                         fontSize: 17),
                   )),
@@ -221,9 +212,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   DataColumn(
                       label: Text(
-                    loggedInUser.nombre!,
+                    loggedInUser.nombre.toString(),
                     style: TextStyle(
-                        color: Color.fromARGB(223, 0, 0, 0),
+                        color: Color(0xFF464444),
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
@@ -235,16 +226,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       DataCell(Text(
                         'Age :',
                         style: TextStyle(
-                            color: Color(0xFF464444),
+                            color: Color.fromARGB(255, 0, 0, 0),
                             fontStyle: FontStyle.normal,
                             fontSize: 17),
                       )),
                       DataCell(Text('   ')),
                       DataCell(Text('   ')),
                       DataCell(Text(
-                        "20 Ans",
+                        loggedInUser.age.toString() + " Ans",
                         style: TextStyle(
-                            color: Color.fromARGB(223, 0, 0, 0),
+                            color: Color(0xFF464444),
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.bold,
                             fontSize: 16),
@@ -256,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       DataCell(Text(
                         'Price :',
                         style: TextStyle(
-                            color: Color(0xFF464444),
+                            color: Color.fromARGB(255, 0, 0, 0),
                             fontStyle: FontStyle.normal,
                             fontSize: 17),
                       )),
@@ -265,7 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       DataCell(Text(
                         loggedInUser.price.toString() + " Dh",
                         style: TextStyle(
-                            color: Color.fromARGB(223, 0, 0, 0),
+                            color: Color(0xFF464444),
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.normal,
                             fontSize: 16),
@@ -277,7 +268,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       DataCell(Text(
                         'Time :',
                         style: TextStyle(
-                            color: Color(0xFF464444),
+                            color: Color.fromARGB(255, 0, 0, 0),
                             fontStyle: FontStyle.normal,
                             fontSize: 17),
                       )),
@@ -286,7 +277,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       DataCell(Text(
                         "All Days",
                         style: TextStyle(
-                            color: Color.fromARGB(223, 0, 0, 0),
+                            color: Color(0xFF464444),
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.normal,
                             fontSize: 16),
@@ -298,7 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       DataCell(Text(
                         'Description: ',
                         style: TextStyle(
-                            color: Color(0xFF464444),
+                            color: Color.fromARGB(255, 0, 0, 0),
                             fontStyle: FontStyle.normal,
                             fontSize: 17),
                       )),
@@ -312,9 +303,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               )),
               Container(
-                child: Text(loggedInUser.description!,
+                padding: EdgeInsets.fromLTRB(22, 0, 22, 0),
+                child: Text(loggedInUser.description.toString(),
                     style: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
+                        color: Color.fromARGB(255, 49, 47, 47),
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w500,
                         fontSize: 16)),
