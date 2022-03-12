@@ -164,7 +164,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
           ),
-          backgroundColor: Color.fromARGB(235, 30, 31, 105)),
+          backgroundColor: Color(0xEB1E1F69)),
       body: Container(
         child: Stack(
           children: [

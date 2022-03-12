@@ -30,18 +30,10 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Connection",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: getProportionateScreenWidth(28),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
                 Image.asset(
-                  'assets/images/login_.png',
-                  width: 90,
-                  height: 90,
+                  'assets/images/workers.png',
+                  width: 135,
+                  height: 135,
                 ),
               ],
             ),

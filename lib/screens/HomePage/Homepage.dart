@@ -8,7 +8,7 @@ import 'package:login/Screens/HomePage/EmpPage.dart';
 import 'package:login/Screens/OtherPages/AboutPage.dart';
 import 'package:login/Screens/OtherPages/NotificationsPage.dart';
 import 'package:login/Screens/OtherPages/SettingPage.dart';
-import 'package:login/Screens/ProfilePage/ProfilePage.dart';
+import 'package:login/Screens/Profile/ProfilePage.dart';
 import 'package:login/Widgets/NavDrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/SearchPage/SearchPage.dart';

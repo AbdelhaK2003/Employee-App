@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,22 +15,32 @@ class UserModel {
   String? Adress;
   String? description;
   String? username;
+  String? age;
   int? price;
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel(
-      {this.uid,
-      this.email,
-      this.Firstname,
-      this.Lastname,
-      this.password,
-      this.nombre,
-      this.image,
-      this.job,
-      this.Adress,
-      this.description,
-      this.username,
-      this.price});
+  UserModel({
+    this.uid,
+    this.email,
+    this.Firstname,
+    this.Lastname,
+    this.password,
+    this.nombre,
+    this.image,
+    this.job,
+    this.Adress,
+    this.description,
+    this.username,
+    this.price,
+    this.age,
+  });
   Future<Stream<QuerySnapshot>> getUserByUserName(String username) async {
+    return FirebaseFirestore.instance
+        .collection("Utilisateur")
+        .where("username", isEqualTo: username)
+        .snapshots();
+  }
+
+  Future<Stream<QuerySnapshot>> getUserByemail(String username) async {
     return FirebaseFirestore.instance
         .collection("Utilisateur")
         .where("username", isEqualTo: username)
@@ -50,6 +62,7 @@ class UserModel {
       description: map['description'],
       username: map['username'],
       price: map['price'],
+      age: map['age'],
     );
   }
 
@@ -68,6 +81,7 @@ class UserModel {
       'Adress': Adress,
       'username': username,
       'price': price,
+      'age': age,
     };
   }
 
