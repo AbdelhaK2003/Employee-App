@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 //import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:login/Screens/AddWork/AddWork.dart';
+
 import 'package:login/Screens/ChatPage/ChatPage.dart';
 import 'package:login/Screens/FavoritePage/FavoritePage.dart';
 import 'package:login/Screens/HomePage/EmpPage.dart';
@@ -12,8 +12,6 @@ import 'package:login/Screens/ProfilePage/ProfilePage.dart';
 import 'package:login/Widgets/NavDrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/SearchPage/SearchPage.dart';
-import 'package:login/screens/sign_in/sign_in_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/Homepage";

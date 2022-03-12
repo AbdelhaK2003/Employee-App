@@ -62,7 +62,6 @@ class _ChatPageState extends State<ChatPage> {
       {String? profileUrl, fname, lname, username, email}) {
     return GestureDetector(
       onTap: () {
-        print(user!.email!.replaceAll("@gmail.com", ""));
         var chatRoomId = getChatRoomIdByUsernames(
             user!.email!.replaceAll("@gmail.com", ""), username);
         Map<String, dynamic> chatRoomInfoMap = {
