@@ -11,14 +11,36 @@ class NoAccountText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        /* Text(
           "Créer un compte Gratuitement ",
           style: TextStyle(fontSize: getProportionateScreenWidth(16)),
+        ), */
+        SizedBox(
+          width: double.infinity,
+          height: getProportionateScreenHeight(56),
+          child: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(color: Color(0xEB1E1F69))))),
+            onPressed: () {
+              Navigator.pushNamed(context, SignUpScreen.routeName);
+            },
+            child: Text(
+              'Sign in',
+              style: TextStyle(
+                fontSize: getProportionateScreenWidth(18),
+                color: Color(0xEB1E1F69),
+              ),
+            ),
+          ),
         ),
-        GestureDetector(
+        /* GestureDetector(
           onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
           child: Text(
             "S'inscrire",
@@ -27,7 +49,7 @@ class NoAccountText extends StatelessWidget {
                 color: kPrimaryColor,
                 decoration: TextDecoration.underline),
           ),
-        ),
+        ), */
       ],
     );
   }

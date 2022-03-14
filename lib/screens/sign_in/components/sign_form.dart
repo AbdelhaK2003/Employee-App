@@ -46,7 +46,7 @@ class _SignFormState extends State<SignForm> {
           buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPasswordFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(16)),
           Row(
             children: [
               Spacer(),
@@ -54,9 +54,8 @@ class _SignFormState extends State<SignForm> {
                 onTap: () => Navigator.pushNamed(
                     context, ForgotPasswordScreen.routeName),
                 child: Text(
-                  "mote de passe oublié",
-                  style: TextStyle(
-                      decoration: TextDecoration.underline, fontSize: 18),
+                  "Forgot your password",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                 ),
               )
             ],
@@ -64,7 +63,7 @@ class _SignFormState extends State<SignForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
-              text: "Continuer",
+              text: "Log in",
               press: () async {
                 try {
                   await _auth
@@ -79,6 +78,16 @@ class _SignFormState extends State<SignForm> {
                     context: context,
                     builder: (ctx) => AlertDialog(
                       title: Text("Ops! Login Failed"),
+                      content:
+                          const Text('Please enter your email and password !'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Ok'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -118,10 +127,10 @@ class _SignFormState extends State<SignForm> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(5),
         ),
-        labelText: "Mote de passe",
-        hintText: "Entrer votre mote de passe",
+        labelText: "Password",
+        hintText: "Entrer your password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffix: InkWell(
           onTap: _togglePasswordView,
@@ -170,10 +179,10 @@ class _SignFormState extends State<SignForm> {
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
               width: 2, color: Color.fromARGB(235, 30, 31, 105)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(5),
         ),
         labelText: "Email",
-        hintText: "Entrer votre email",
+        hintText: "Enter your email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

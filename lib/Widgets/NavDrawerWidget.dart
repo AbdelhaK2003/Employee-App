@@ -22,7 +22,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
     super.initState();
     FirebaseFirestore.instance
         .collection("Utilisateur")
-        .doc(user!.uid)
+        .doc(user?.uid)
         .get()
         .then((value) {
       this.loggedInUser = UserModel.fromMap(value.data());

@@ -51,9 +51,9 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildConformPassFormField(),
           FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(40)),
+          SizedBox(height: getProportionateScreenHeight(150)),
           DefaultButton(
-              text: "Continue",
+              text: "Next",
               press: () {
                 Navigator.push(
                     context,
@@ -110,10 +110,10 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(12),
         ),
-        labelText: "Confirmer Mot de passe",
-        hintText: "Re-Entrer votre mot de passe",
+        labelText: "Confirm password",
+        hintText: "Enter your password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/lock-.svg"),
       ),
@@ -150,10 +150,10 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(12),
         ),
-        labelText: "Mot de passe",
-        hintText: "Entrer votre mot de passe",
+        labelText: "Password",
+        hintText: "Enter a password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/lock-.svg"),
       ),
@@ -191,10 +191,10 @@ class _SignUpFormState extends State<SignUpForm> {
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
               width: 2, color: Color.fromARGB(235, 30, 31, 105)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(12),
         ),
         labelText: "Email",
-        hintText: "Entrer votre email",
+        hintText: "Enter your email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/mail-.svg"),
       ),

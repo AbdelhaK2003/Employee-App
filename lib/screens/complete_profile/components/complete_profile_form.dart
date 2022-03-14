@@ -75,7 +75,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       child: Column(
         children: [
           Center(
-              child: Text("Choisir une Photo",
+              child: Text("Chose a picture ",
                   style: TextStyle(
                       fontSize: 20, color: Color.fromARGB(235, 0, 0, 0)))),
           Center(
@@ -118,7 +118,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildPhoneNumberFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildAgeFormField(),
-          FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(30)),
           SizedBox(
               width: 380,
@@ -131,15 +130,19 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                         color: Color(0xEB1E1F69),
                         width: 2), //border of dropdown button
                     borderRadius: BorderRadius.circular(
-                        25.0), //border raiuds of dropdown button
+                        12), //border raiuds of dropdown button
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(left: 36, right: 30, top: 5),
                     child: buildlocalisationBox(),
                   ))),
-          SizedBox(height: getProportionateScreenHeight(40)),
+          SizedBox(height: getProportionateScreenHeight(35)),
+          FormError(errors: errors),
+          SizedBox(
+            height: 5,
+          ),
           DefaultButton(
-            text: "continue",
+            text: "Next",
             press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
@@ -190,6 +193,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     return DropdownButton<String>(
       value: localisation,
       elevation: 16,
+      isExpanded: true,
+      underline: SizedBox(),
       style: const TextStyle(color: Color.fromARGB(235, 0, 0, 0), fontSize: 17),
       onChanged: (String? newValue) {
         setState(() {
@@ -197,13 +202,31 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         });
       },
       items: <String>[
-        'Agadir',
-        'Casablanca',
-        'Kenitra',
-        'Sale',
-        'Tanger',
-        'Marrakech',
-        'Laayoune',
+        "Casablanca",
+        "Fez",
+        "Tangier",
+        "Marrakesh",
+        "Salé",
+        "Meknes",
+        "Rabat",
+        "Oujda",
+        "Kenitra",
+        "Agadir",
+        "Tetouan",
+        "Temara",
+        "Safi",
+        "Mohammedia",
+        "Khouribga",
+        "El Jadida",
+        "Beni Mellal",
+        "Ait Melloul",
+        "Nador",
+        "Dar Bouazza",
+        "Taza",
+        "Settat",
+        "Berrechid",
+        "Khemisset",
+        "Inezgane",
       ].map<DropdownMenuItem<String>>((String valuea) {
         return DropdownMenuItem<String>(
           value: valuea,
@@ -237,10 +260,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(12),
         ),
-        labelText: "Numéro de téléphone",
-        hintText: "Entrer votre numéro de téléphone",
+        labelText: "Phone",
+        hintText: "Enter your phone",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -256,10 +279,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(12),
         ),
-        labelText: "Nom",
-        hintText: "Entrer votre Nom",
+        labelText: "Last name",
+        hintText: "Enter your last name",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -275,10 +298,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(12),
         ),
         labelText: "Age",
-        hintText: "Entrer votre Age",
+        hintText: "Enter your age",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -307,10 +330,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(12),
         ),
-        labelText: "Prénom",
-        hintText: "Entrer votre Prénom",
+        labelText: "First name",
+        hintText: "Enter Your first name",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

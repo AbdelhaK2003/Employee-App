@@ -21,15 +21,18 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-        child: ClipPath(
-          clipper: WaveClip(),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(12),
+            bottomLeft: Radius.circular(12),
+          ),
           child: Container(
             color: Color.fromRGBO(30, 31, 105, 0.922),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Mot de passe oublié",
+                  "Verification",
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: getProportionateScreenWidth(28),

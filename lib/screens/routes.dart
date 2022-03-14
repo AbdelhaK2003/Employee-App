@@ -4,6 +4,7 @@ import 'package:login/screens/AddWork/AddWork.dart';
 import 'package:login/screens/AddWork/UpdateDeleteWork.dart';
 import 'package:login/screens/ChatPage/ChatPage.dart';
 import 'package:login/screens/HomePage/Homepage.dart';
+import 'package:login/screens/HomePage/EmpScreen.dart';
 import 'package:login/screens/SearchPage/SearchPage.dart';
 import 'package:login/screens/forgot_password/forgot_password_screen.dart';
 import 'package:login/screens/sign_in/sign_in_screen.dart';
@@ -21,4 +22,5 @@ final Map<String, WidgetBuilder> routes = {
   SearchPage.routeName: (context) => SearchPage(),
   AddWork.routeName: (context) => AddWork(),
   UpdateDeleteWork.routeName: (context) => UpdateDeleteWork(),
+  Second.routeName: (context) => Second(),
 };

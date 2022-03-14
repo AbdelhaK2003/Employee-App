@@ -20,22 +20,26 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-        child: ClipPath(
-          clipper: WaveClip(),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(40),
+            bottomLeft: Radius.circular(0),
+          ),
           child: Container(
             color: Color(0xEB1E1F69),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "S'inscrire",
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 20),
+                child: Text(
+                  "Sign in",
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: getProportionateScreenWidth(28),
+                    fontSize: getProportionateScreenWidth(35),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),

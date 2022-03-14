@@ -25,14 +25,14 @@ const kTextColor = Color(0xFF757575);
 // Form Error
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-const String kEmailNullError = "Entrer votre email";
-const String kInvalidEmailError = "Entrer un email valide";
-const String kPassNullError = "Entrer un mot de passe valide";
-const String kShortPassError = "Mot passe faible";
-const String kMatchPassError = "Mot de pass incorrect";
-const String kNamelNullError = "Entrer votre nom";
-const String kPhoneNumberNullError = "Entrer votre numéro";
-const String kAddressNullError = "Entrer votre adresse";
+const String kEmailNullError = "Enter your email";
+const String kInvalidEmailError = "Enter a valide email";
+const String kPassNullError = "Enter a valide password";
+const String kShortPassError = "Weak password ! try another one";
+const String kMatchPassError = "Password incorrect";
+const String kNamelNullError = "Enter your last name";
+const String kPhoneNumberNullError = "Enter your phone";
+const String kAddressNullError = "Enter your adress";
 
 /*final otpInputDecoration = InputDecoration(
   contentPadding:

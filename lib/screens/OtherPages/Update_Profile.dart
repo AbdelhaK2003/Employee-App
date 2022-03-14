@@ -10,6 +10,7 @@ import 'package:login/components/form_error.dart';
 import 'package:login/screens/HomePage/Homepage.dart';
 import 'package:login/screens/constants.dart';
 import 'package:login/screens/size_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../model.dart';
 
 class Updatescreen extends StatelessWidget {
@@ -272,7 +273,6 @@ class _UpdatePageState extends State<UpdatePage> {
                     'image': pic.text,
                   },
                 );
-
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => HomePage()));
               }),
@@ -406,7 +406,7 @@ class _UpdatePageState extends State<UpdatePage> {
           borderRadius: new BorderRadius.circular(25.0),
         ),
         labelText: "Nom",
-        hintText: "Entrer votre Nom",
+        hintText: "Enter your first name",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -426,7 +426,7 @@ class _UpdatePageState extends State<UpdatePage> {
           borderRadius: new BorderRadius.circular(25.0),
         ),
         labelText: "Age",
-        hintText: "Entrer votre Age",
+        hintText: "Enter your Age",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -458,8 +458,8 @@ class _UpdatePageState extends State<UpdatePage> {
           borderSide: const BorderSide(width: 2, color: Color(0xEB1E1F69)),
           borderRadius: new BorderRadius.circular(25.0),
         ),
-        labelText: "Prénom",
-        hintText: "Entrer votre Prénom",
+        labelText: "First name",
+        hintText: "Enter your first name",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

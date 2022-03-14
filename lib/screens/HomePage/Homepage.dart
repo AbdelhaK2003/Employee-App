@@ -4,14 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:login/Screens/ChatPage/ChatPage.dart';
 import 'package:login/Screens/FavoritePage/FavoritePage.dart';
-import 'package:login/Screens/HomePage/EmpPage.dart';
 import 'package:login/Screens/OtherPages/AboutPage.dart';
 import 'package:login/Screens/OtherPages/NotificationsPage.dart';
 import 'package:login/Screens/OtherPages/SettingPage.dart';
 import 'package:login/Screens/Profile/ProfilePage.dart';
 import 'package:login/Widgets/NavDrawerWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:login/screens/HomePage/EmpScreen.dart';
 import 'package:login/screens/SearchPage/SearchPage.dart';
+import 'package:login/screens/sign_in/sign_in_screen.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/Homepage";
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController(initialPage: 0);
 
   final screen = [
-    EmpPage(),
+    EmpScreen(),
     ChatPage(),
     SearchPage(),
     FavoritePage(),
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
             Sindex = newIndex;
           });
         },
-        children: [EmpPage(), ChatPage(), FavoritePage(), ProfilePage()],
+        children: [EmpScreen(), ChatPage(), FavoritePage(), ProfilePage()],
       ),
       //The button navigation bar
       bottomNavigationBar: BottomNavigationBar(
@@ -207,10 +208,11 @@ class _HomePageState extends State<HomePage> {
             } else if (id == 9) {
               /* final SharedPreferences sharedPreferences =
                   await SharedPreferences.getInstance();
-              sharedPreferences.remove('email');
+              
               finalemail = ""; */
               auth.signOut();
-              Navigator.pop(context);
+
+              Navigator.popAndPushNamed(context, SignInScreen.routeName);
             }
           });
         },

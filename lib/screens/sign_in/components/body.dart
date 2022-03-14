@@ -22,6 +22,8 @@ class Body extends StatelessWidget {
                 SizedBox(height: SizeConfig.screenHeight * 0.03),
                 SignForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.03),
+                NoAccountText(),
+                SizedBox(height: getProportionateScreenHeight(20)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -31,8 +33,6 @@ class Body extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: getProportionateScreenHeight(20)),
-                NoAccountText(),
               ],
             ),
           ),

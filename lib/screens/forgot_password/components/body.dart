@@ -88,7 +88,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 borderRadius: new BorderRadius.circular(25.0),
               ),
               labelText: "Email",
-              hintText: "Entrer votre email",
+              hintText: "Enter your email ",
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/mail-.svg"),
             ),
@@ -97,14 +97,25 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           FormError(errors: errors),
           //SizedBox(height: SizeConfig.screenHeight * 0.1),
           DefaultButton(
-            text: "Continue",
+            text: "Verify",
             press: () {
               if (_formKey.currentState!.validate()) {
                 resetPassword();
               }
             },
           ),
-          SizedBox(height: SizeConfig.screenHeight * 0.1),
+          SizedBox(height: SizeConfig.screenHeight * 0.24),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child:
+                  Text('(If you don' 't have account yet create it here !) '),
+            ),
+          ),
+          SizedBox(
+            height: 2,
+          ),
           NoAccountText(),
         ],
       ),

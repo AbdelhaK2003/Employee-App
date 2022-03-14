@@ -252,42 +252,44 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
         },
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.network(
-                  profilePicUrl,
-                  height: 45,
-                  width: 45,
-                ),
-              ),
-              SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    fname + " " + lname,
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+          child: SingleChildScrollView(
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.network(
+                    profilePicUrl,
+                    height: 45,
+                    width: 45,
                   ),
-                  Row(children: [
-                    SizedBox(height: 3),
-                    Text(widget.lastMessage, style: TextStyle(fontSize: 16)),
+                ),
+                SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      " . " +
-                          widget.time.toDate().day.toString() +
-                          "/" +
-                          widget.time.toDate().month.toString() +
-                          " " +
-                          widget.time.toDate().hour.toString() +
-                          ":" +
-                          widget.time.toDate().minute.toString(),
-                      textAlign: TextAlign.end,
+                      fname + " " + lname,
+                      style: TextStyle(fontSize: 18, color: Colors.black),
                     ),
-                  ])
-                ],
-              ),
-            ],
+                    Row(children: [
+                      SizedBox(height: 3),
+                      Text(widget.lastMessage, style: TextStyle(fontSize: 16)),
+                      Text(
+                        " . " +
+                            widget.time.toDate().day.toString() +
+                            "/" +
+                            widget.time.toDate().month.toString() +
+                            " " +
+                            widget.time.toDate().hour.toString() +
+                            ":" +
+                            widget.time.toDate().minute.toString(),
+                        textAlign: TextAlign.end,
+                      ),
+                    ])
+                  ],
+                ),
+              ],
+            ),
           ),
         ));
   }
