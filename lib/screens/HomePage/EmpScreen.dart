@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login/Screens/AddWork/AddWork.dart';
 import 'package:login/screens/AddWork/UpdateDeleteWork.dart';
+import 'WorkerInfos.dart';
+
+final _auth = FirebaseAuth.instance;
+User? user = _auth.currentUser;
 
 class EmpScreen extends StatelessWidget {
   static String nom = '';
@@ -14,6 +18,9 @@ class EmpScreen extends StatelessWidget {
   static String adress = '';
   static String nombre = '';
   static String price = '';
+  static String time = '';
+  static String description = '';
+  static String availableDays = '';
   static String favorits = '';
   static String uid = '';
   static String somthing = '';
@@ -21,8 +28,6 @@ class EmpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
     //***** nta blast l id atdir l id dyal li 7al l app ********
     FirebaseFirestore.instance
         .collection('Utilisateur')
@@ -36,21 +41,31 @@ class EmpScreen extends StatelessWidget {
         //print("wow");
       });
     });
-    return MyHomePage();
+    return MyHomePage(user!.uid.toString());
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  final String nid;
+  MyHomePage(this.nid);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection('Utilisateur').snapshots();
   Map<String, dynamic>? dt;
+
   @override
   Widget build(BuildContext context) {
+    print('here');
+    print(widget.nid);
+    final Stream<QuerySnapshot> users = FirebaseFirestore.instance
+        .collection('Utilisateur')
+        .where('price', isNotEqualTo: -1)
+        // .where('time', isEqualTo: 'Hour')
+        .snapshots();
+
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
     return Scaffold(
@@ -136,7 +151,21 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text('Something is wrong');
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 50,
+                      ),
+                      CircularProgressIndicator(
+                        color: Color(0xEB1E1F69),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text('Somethings went wrong ..'),
+                    ],
+                  );
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Column(
@@ -175,6 +204,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         //MyApp.adress = snapshot.
                         EmpScreen.email = data.docs[index]['email'];
                         EmpScreen.price = data.docs[index]['price'].toString();
+                        EmpScreen.time = data.docs[index]['time'];
+                        EmpScreen.availableDays =
+                            data.docs[index]['availableDays'];
+                        EmpScreen.description = data.docs[index]['description'];
                         EmpScreen.nombre = data.docs[index]['nombre'];
 
                         EmpScreen.uid = data.docs[index]['uid'];
@@ -202,12 +235,44 @@ class _MyHomePageState extends State<MyHomePage> {
                               title: Text(
                                 '${data.docs[index]['Lastname']}  ${data.docs[index]['Firstname']}',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                 ),
                               ),
-                              subtitle: Text(
-                                '''${data.docs[index]['Adress']}  ${data.docs[index]['job']}''',
-                                style: TextStyle(fontSize: 16),
+                              subtitle: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.grey,
+                                        size: 14,
+                                      ),
+                                      Text(
+                                        '''${data.docs[index]['Adress']}  ''',
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(1),
+                                        child: Icon(
+                                          Icons.engineering,
+                                          color: Colors.grey,
+                                          size: 14,
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '${data.docs[index]['job']}',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                               trailing: InkWell(
                                 borderRadius: BorderRadius.circular(2),
@@ -280,287 +345,5 @@ class _MyHomePageState extends State<MyHomePage> {
     var collection = FirebaseFirestore.instance.collection('Utilisateur');
     var docSnapshot = await collection.doc(user!.uid).get();
     dt = docSnapshot.data();
-  }
-}
-
-class Second extends StatefulWidget {
-  static String routeName = "/InofDet";
-  @override
-  State<Second> createState() => _SecondState();
-}
-
-class _SecondState extends State<Second> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Center(
-          child: Text(EmpScreen.nom + ' ' + EmpScreen.prenom),
-        ),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Container(
-            height: 250,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.blue.shade300],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                stops: [0.5, 0.9],
-              ),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      /*  CircleAvatar(
-                        backgroundColor: Colors.red.shade300,
-                        minRadius: 35.0,
-                        child: Icon(
-                          Icons.call,
-                          size: 30.0,
-                        ),
-                      ),*/
-
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        minRadius: 85.0,
-                        child: CircleAvatar(
-                          radius: 80.0,
-                          backgroundImage: NetworkImage(EmpScreen.image),
-                        ),
-                      ),
-                      /*
-                      CircleAvatar(
-                        backgroundColor: Colors.red.shade300,
-                        minRadius: 35.0,
-                        child: Icon(
-                          Icons.message,
-                          size: 30.0,
-                        ),
-                      ),*/
-                    ],
-                  ),
-                  SizedBox(
-                    child: Container(
-                      //color: Colors.red,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.blue, Colors.blue.shade300],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          stops: [0.5, 0.9],
-                        ),
-                      ),
-                    ),
-                    height: 10,
-                  ),
-                  Text(
-                    EmpScreen.nom + ' ' + EmpScreen.prenom,
-                    style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    EmpScreen.job,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: 10.0,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.blue.shade300],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                stops: [0.5, 0.9],
-              ),
-            ),
-          ),
-          Container(
-            height: 20.0,
-            color: Colors.blue,
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    color: Colors.blue,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      minRadius: 35.0,
-                      child: Icon(
-                        Icons.message,
-                        size: 40.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: InkWell(
-                    child: Container(
-                      color: Colors.blue,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        minRadius: 35.0,
-                        child: Icon(
-                          (EmpScreen.listFavorits.contains(EmpScreen.uid))
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color:
-                              (EmpScreen.listFavorits.contains(EmpScreen.uid))
-                                  ? Colors.red
-                                  : null,
-                          size: 40.0,
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        if (!EmpScreen.listFavorits.contains(EmpScreen.uid)) {
-                          EmpScreen.listFavorits.add(EmpScreen.uid);
-                          var collection = FirebaseFirestore.instance
-                              .collection('Utilisateur');
-                          //****** Fblast doc dir l id dyal li dakhl l app daba ****
-                          collection
-                              .doc(
-                                  'IqxSEw6ZYnWkEiWAqgwiO2kTs3i2') // <-- Doc ID where data should be updated.
-                              .update({
-                            'favorits': EmpScreen.listFavorits.join(',')
-                          });
-                        } else {
-                          EmpScreen.listFavorits.remove(EmpScreen.uid);
-                          var collection = FirebaseFirestore.instance
-                              .collection('Utilisateur');
-                          //****** Fblast doc dir l id dyal li dakhl l app daba ****
-                          collection
-                              .doc(
-                                  'IqxSEw6ZYnWkEiWAqgwiO2kTs3i2') // <-- Doc ID where data should be updated.
-                              .update({
-                            'favorits': EmpScreen.listFavorits.join(',')
-                          });
-                        }
-                      });
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    color: Colors.blue,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      minRadius: 35.0,
-                      child: Icon(
-                        Icons.call,
-                        size: 40.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 20.0,
-            color: Colors.blue,
-          ),
-          Container(
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  title: Text(
-                    'Telephone',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    EmpScreen.nombre,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 2,
-                ),
-                ListTile(
-                  title: Text(
-                    'Email',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    EmpScreen.email,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 2,
-                ),
-                ListTile(
-                  title: Text(
-                    'Adress',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    EmpScreen.adress,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 2,
-                  color: Colors.black,
-                ),
-                ListTile(
-                  title: Text(
-                    'Price',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    EmpScreen.price.toString(),
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
   }
 }

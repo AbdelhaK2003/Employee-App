@@ -4,7 +4,7 @@ import 'package:login/screens/AddWork/AddWork.dart';
 import 'package:login/screens/AddWork/UpdateDeleteWork.dart';
 import 'package:login/screens/ChatPage/ChatPage.dart';
 import 'package:login/screens/HomePage/Homepage.dart';
-import 'package:login/screens/HomePage/EmpScreen.dart';
+import 'package:login/screens/HomePage/WorkerInfos.dart';
 import 'package:login/screens/SearchPage/SearchPage.dart';
 import 'package:login/screens/forgot_password/forgot_password_screen.dart';
 import 'package:login/screens/sign_in/sign_in_screen.dart';
