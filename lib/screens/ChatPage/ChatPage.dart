@@ -161,6 +161,13 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             Row(
               children: [
+                Text(
+                  "Messages",
+                  style: TextStyle(
+                      color: Color.fromARGB(235, 0, 0, 0),
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal),
+                ),
                 isSearching
                     ? GestureDetector(
                         onTap: () {
@@ -173,35 +180,6 @@ class _ChatPageState extends State<ChatPage> {
                             child: Icon(Icons.arrow_back)),
                       )
                     : Container(),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            width: 1,
-                            style: BorderStyle.solid),
-                        borderRadius: BorderRadius.circular(24)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: TextField(
-                          controller: searchUsernameEditingController,
-                          decoration: InputDecoration(
-                              border: InputBorder.none, hintText: "username"),
-                        )),
-                        GestureDetector(
-                            onTap: () {
-                              if (searchUsernameEditingController.text != "") {
-                                onSearchBtnClick();
-                              }
-                            },
-                            child: Icon(Icons.search))
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
             isSearching ? searchUsersList() : chatRoomsList(),
@@ -212,6 +190,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 }
 
+// ignore: must_be_immutable
 class ChatRoomListTile extends StatefulWidget {
   final String lastMessage, chatRoomId, myUsername;
   Timestamp time;
@@ -251,7 +230,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                       ChatScreen(username, fname, lname, profilePicUrl)));
         },
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 8),
+          margin: EdgeInsets.symmetric(vertical: 10),
           child: SingleChildScrollView(
             child: Row(
               children: [
@@ -259,8 +238,8 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
                     profilePicUrl,
-                    height: 45,
-                    width: 45,
+                    height: 55,
+                    width: 55,
                   ),
                 ),
                 SizedBox(width: 12),
@@ -269,7 +248,10 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                   children: [
                     Text(
                       fname + " " + lname,
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
                     ),
                     Row(children: [
                       SizedBox(height: 3),
