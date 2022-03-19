@@ -275,6 +275,11 @@ class _UpdatePageState extends State<UpdatePage> {
                 );
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => HomePage()));
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AdvanceCustomAlertt();
+                    });
               }),
         ],
       ),
@@ -640,5 +645,70 @@ class Body extends StatelessWidget {
         ),
       ),
     ]));
+  }
+}
+
+class AdvanceCustomAlertt extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+        child: Stack(
+          overflow: Overflow.visible,
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              height: 220,
+              width: 450,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Done!!',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Your profile informations changed',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      color: Color(0xEB1E1F69),
+                      child: Text(
+                        'Go',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                top: -60,
+                child: CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 10, 133, 26),
+                  radius: 60,
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                )),
+          ],
+        ));
   }
 }
