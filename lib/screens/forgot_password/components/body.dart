@@ -126,12 +126,78 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
       Navigator.pushNamed(context, SignInScreen.routeName);
-      //Utils.showSnackBar('Password Reset Email Sent');
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('Password Reset Email Sent'),
-      ));
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AdvanceCustomAlertt();
+          });
     } on FirebaseAuthException catch (e) {
       print(e);
     }
+  }
+}
+
+class AdvanceCustomAlertt extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+        child: Stack(
+          overflow: Overflow.visible,
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              height: 220,
+              width: 450,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Email Sent',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Check your email',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: 27,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      color: Color(0xEB1E1F69),
+                      child: Text(
+                        'Ok',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                top: -60,
+                child: CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 10, 133, 26),
+                  radius: 60,
+                  child: Icon(
+                    Icons.email,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                )),
+          ],
+        ));
   }
 }
