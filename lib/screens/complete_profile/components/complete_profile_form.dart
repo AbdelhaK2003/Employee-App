@@ -227,6 +227,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         "Berrechid",
         "Khemisset",
         "Inezgane",
+        "El kelaa Des Sraghna"
       ].map<DropdownMenuItem<String>>((String valuea) {
         return DropdownMenuItem<String>(
           value: valuea,
@@ -346,8 +347,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         storageReference.child("$firstName" "_$lastName.jpg").putFile(imgfile);
 
     String url = await (await uploadTask).ref.getDownloadURL();
-
-    print(url);
     return url;
   }
 
@@ -379,9 +378,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
-
+    String url;
     UserModel userModel = UserModel();
-    String url = await _uploadphotofile(_image);
+    if (_image != null)
+      url = await _uploadphotofile(_image);
+    else
+      url =
+          "https://firebasestorage.googleapis.com/v0/b/employe-8f42c.appspot.com/o/052967c305a8f96a4b40b79ce5e61b0d.png?alt=media&token=a5b9855d-611d-4199-80a9-a2a838473acb";
     // writing all the values
     String n = user!.email!.replaceAll("@gmail.com", "");
     userModel.email = user.email;
