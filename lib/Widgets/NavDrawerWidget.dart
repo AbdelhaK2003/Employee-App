@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:login/main.dart';
 
 import '../model.dart';
 
@@ -16,18 +15,26 @@ class MyHeaderDrawer extends StatefulWidget {
 class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
-
+  String fname = '';
+  String lname = '';
+  String email = '';
+  String pic = '';
   @override
   void initState() {
-    super.initState();
     FirebaseFirestore.instance
         .collection("Utilisateur")
         .doc(user?.uid)
         .get()
         .then((value) {
       this.loggedInUser = UserModel.fromMap(value.data());
+      fname = loggedInUser.Firstname.toString();
+      lname = loggedInUser.Lastname.toString();
+      email = loggedInUser.email.toString();
+      pic = loggedInUser.image.toString();
       setState(() {});
     });
+
+    super.initState();
   }
 
   @override
@@ -46,16 +53,16 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: CachedNetworkImageProvider('${loggedInUser.image}'),
+                image: CachedNetworkImageProvider(pic),
               ),
             ),
           ),
           Text(
-            "${loggedInUser.Firstname}" + " " + "${loggedInUser.Lastname}",
+            fname + " " + lname,
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           Text(
-            "${loggedInUser.email}",
+            email,
             style: TextStyle(
               color: Colors.grey[200],
               fontSize: 14,
