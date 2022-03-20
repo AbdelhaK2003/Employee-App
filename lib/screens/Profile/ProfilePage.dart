@@ -15,6 +15,15 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
+  String fname = '',
+      lname = '',
+      job = '',
+      pic = '',
+      adress = '',
+      nombre = '',
+      age = '',
+      price = '',
+      description = '';
   @override
   void initState() {
     super.initState();
@@ -24,6 +33,14 @@ class _ProfilePageState extends State<ProfilePage> {
         .get()
         .then((value) {
       this.loggedInUser = UserModel.fromMap(value.data());
+      fname = loggedInUser.Firstname.toString();
+      lname = loggedInUser.Lastname.toString();
+      job = loggedInUser.job.toString();
+      adress = loggedInUser.Adress.toString();
+      price = loggedInUser.price.toString();
+      description = loggedInUser.description.toString();
+      pic = loggedInUser.image.toString();
+      nombre = loggedInUser.nombre.toString();
       setState(() {});
     });
   }
@@ -58,9 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: EdgeInsets.all(15),
                 child: Text(
-                  loggedInUser.Firstname.toString() +
-                      " " +
-                      loggedInUser.Lastname.toString(),
+                  fname + " " + lname,
                   style: TextStyle(
                     fontSize: 25,
                     letterSpacing: 1.5,
@@ -72,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: EdgeInsets.all(0),
                 child: Text(
-                  loggedInUser.job.toString(),
+                  job,
                   style: TextStyle(
                     fontSize: 20,
                     letterSpacing: 1.2,
@@ -94,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Color.fromARGB(255, 197, 197, 197),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(loggedInUser.image.toString()),
+                    image: NetworkImage(pic),
                   ),
                 ),
               ),
@@ -130,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Text("   "),
                   Icon(Icons.place, color: Color(0xEB1E1F69)),
                   Text(
-                    " " + loggedInUser.Adress.toString() + "  ",
+                    " " + adress + "  ",
                     style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   Icon(Icons.watch_later, color: Color(0xEB1E1F69)),
@@ -212,7 +227,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   DataColumn(
                       label: Text(
-                    loggedInUser.nombre.toString(),
+                    nombre,
                     style: TextStyle(
                         color: Color(0xFF464444),
                         fontStyle: FontStyle.normal,
@@ -233,7 +248,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       DataCell(Text('   ')),
                       DataCell(Text('   ')),
                       DataCell(Text(
-                        loggedInUser.age.toString() + " Ans",
+                        age + " Ans",
                         style: TextStyle(
                             color: Color(0xFF464444),
                             fontStyle: FontStyle.normal,
@@ -254,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       DataCell(Text('   ')),
                       DataCell(Text('   ')),
                       DataCell(Text(
-                        loggedInUser.price.toString() + " Dh",
+                        price + " Dh",
                         style: TextStyle(
                             color: Color(0xFF464444),
                             fontWeight: FontWeight.bold,
@@ -304,7 +319,7 @@ class _ProfilePageState extends State<ProfilePage> {
               )),
               Container(
                 padding: EdgeInsets.fromLTRB(22, 0, 22, 0),
-                child: Text(loggedInUser.description.toString(),
+                child: Text(description,
                     style: TextStyle(
                         color: Color.fromARGB(255, 49, 47, 47),
                         fontStyle: FontStyle.normal,
