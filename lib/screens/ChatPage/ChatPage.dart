@@ -13,8 +13,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  bool isSearching = false;
-  String? myName, myProfilePic, myUserName, myEmail;
+  bool isSearching = true;
+  String myName = '', myProfilePic = '', myUserName = '', myEmail = '';
   Stream<QuerySnapshot>? usersStream, chatRoomsStream;
   User? user = FirebaseAuth.instance.currentUser;
   TextEditingController searchUsernameEditingController =
@@ -139,10 +139,10 @@ class _ChatPageState extends State<ChatPage> {
         .then((value) {
       this.loggedInUser = UserModel.fromMap(value.data());
     });
-    myName = loggedInUser.Firstname;
-    myProfilePic = loggedInUser.image;
-    myUserName = loggedInUser.username;
-    myEmail = loggedInUser.email;
+    myName = loggedInUser.Firstname.toString();
+    myProfilePic = loggedInUser.image.toString();
+    myUserName = loggedInUser.username.toString();
+    myEmail = loggedInUser.email.toString();
     setState(() {});
   }
 
@@ -150,6 +150,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     onScreenLoaded();
     super.initState();
+    isSearching = false;
   }
 
   @override
