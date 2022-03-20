@@ -203,7 +203,9 @@ class ChatRoomListTile extends StatefulWidget {
 }
 
 class _ChatRoomListTileState extends State<ChatRoomListTile> {
-  String profilePicUrl = "", fname = "", lname = "", username = "";
+  String fname = "", lname = "", username = "";
+  String? profilePicUrl;
+
   getThisUserInfo() async {
     username =
         widget.chatRoomId.replaceAll(widget.myUsername, "").replaceAll("_", "");
@@ -228,7 +230,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      ChatScreen(username, fname, lname, profilePicUrl)));
+                      ChatScreen(username, fname, lname, profilePicUrl!)));
         },
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 10),
@@ -238,7 +240,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
-                    profilePicUrl,
+                    profilePicUrl!,
                     height: 55,
                     width: 55,
                   ),
