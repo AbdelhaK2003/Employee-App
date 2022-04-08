@@ -37,8 +37,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   Image.asset(
                     'assets/images/workers.png',
-                    width: 135,
-                    height: 135,
+                    width: 148,
+                    height: 148,
                   ),
                 ],
               ),

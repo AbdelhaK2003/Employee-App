@@ -1,15 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 //import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:login/Screens/ChatPage/ChatPage.dart';
 import 'package:login/Screens/FavoritePage/FavoritePage.dart';
 import 'package:login/Screens/OtherPages/AboutPage.dart';
-import 'package:login/Screens/OtherPages/NotificationsPage.dart';
 import 'package:login/Screens/OtherPages/SettingPage.dart';
 import 'package:login/Screens/Profile/ProfilePage.dart';
 import 'package:login/Widgets/NavDrawerWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:login/model.dart';
 import 'package:login/screens/HomePage/EmpScreen.dart';
 import 'package:login/screens/SearchPage/SearchPage.dart';
 import 'package:login/screens/sign_in/sign_in_screen.dart';
@@ -26,6 +27,8 @@ class _HomePageState extends State<HomePage> {
   //This index is for identify pages
   int Sindex = 0;
   PageController _pageController = PageController(initialPage: 0);
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
 
   final screen = [
     EmpScreen(),
@@ -34,6 +37,18 @@ class _HomePageState extends State<HomePage> {
     FavoritePage(),
     ProfilePage()
   ];
+  @override
+  void initState() {
+    FirebaseFirestore.instance
+        .collection("Utilisateur")
+        .doc(user?.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,11 +205,6 @@ class _HomePageState extends State<HomePage> {
               Sindex = 3;
               _pageController.animateToPage(3,
                   duration: Duration(milliseconds: 500), curve: Curves.ease);
-            } else if (id == 6) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NotificationsPage()),
-              );
             } else if (id == 7) {
               Navigator.push(
                 context,

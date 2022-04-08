@@ -41,6 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
       description = loggedInUser.description.toString();
       pic = loggedInUser.image.toString();
       nombre = loggedInUser.nombre.toString();
+      age = loggedInUser.age.toString();
       setState(() {});
     });
   }

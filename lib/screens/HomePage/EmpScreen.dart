@@ -1,9 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login/Screens/AddWork/AddWork.dart';
+import 'package:login/model.dart';
 import 'package:login/screens/AddWork/UpdateDeleteWork.dart';
+
+import '../Chat_Screen/chatscreen.dart';
 
 class EmpScreen extends StatelessWidget {
   static String nom = '';
@@ -290,11 +292,19 @@ class Second extends StatefulWidget {
 }
 
 class _SecondState extends State<Second> {
+  getChatRoomIdByUsernames(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xEB1E1F69),
         title: Center(
           child: Text(EmpScreen.nom + ' ' + EmpScreen.prenom),
         ),
@@ -401,12 +411,38 @@ class _SecondState extends State<Second> {
                 Expanded(
                   child: Container(
                     color: Colors.blue,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      minRadius: 35.0,
-                      child: Icon(
-                        Icons.message,
-                        size: 40.0,
+                    child: GestureDetector(
+                      onTap: () {
+                        final _auth = FirebaseAuth.instance;
+                        User? user = _auth.currentUser;
+                        var chatRoomId = getChatRoomIdByUsernames(
+                            EmpScreen.email.replaceAll("@gmail.com", ""),
+                            user!.email!.replaceAll("@gmail.com", ""));
+                        Map<String, dynamic> chatRoomInfoMap = {
+                          "Utilisateur": [
+                            EmpScreen.email.replaceAll("@gmail.com", ""),
+                            user.email!.replaceAll("@gmail.com", "")
+                          ]
+                        };
+                        UserModel().createChatRoom(chatRoomId, chatRoomInfoMap);
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                    EmpScreen.email
+                                        .replaceAll("@gmail.com", ""),
+                                    EmpScreen.prenom,
+                                    EmpScreen.nom,
+                                    EmpScreen.image)));
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        minRadius: 35.0,
+                        child: Icon(
+                          Icons.message,
+                          size: 40.0,
+                        ),
                       ),
                     ),
                   ),

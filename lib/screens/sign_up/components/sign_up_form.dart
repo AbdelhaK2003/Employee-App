@@ -7,7 +7,6 @@ import 'package:login/components/form_error.dart';
 import 'package:login/model.dart';
 import 'package:login/screens/complete_profile/complete_profile_screen.dart';
 import 'package:login/screens/constants.dart';
-import 'package:login/screens/sign_in/sign_in_screen.dart';
 import 'package:login/screens/size_config.dart';
 
 class SignUpForm extends StatefulWidget {

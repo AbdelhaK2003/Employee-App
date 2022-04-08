@@ -90,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 color: sendByMe
                     ? Color(0xEB1E1F69)
-                    : Color.fromARGB(255, 92, 90, 89),
+                    : Color.fromARGB(255, 122, 120, 118),
               ),
               padding: EdgeInsets.all(16),
               child: Text(
@@ -153,8 +153,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
                     widget.imageurl,
-                    height: 35,
-                    width: 35,
+                    height: 43,
+                    width: 43,
                   ),
                 ),
                 SizedBox(
@@ -202,7 +202,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       "    ",
                     ),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         addMessage(true);
                       },
                       child: Icon(
