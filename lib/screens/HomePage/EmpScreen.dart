@@ -4,6 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login/Screens/AddWork/AddWork.dart';
 import 'package:login/model.dart';
 import 'package:login/screens/AddWork/UpdateDeleteWork.dart';
+import 'WorkerInfos.dart';
+
+final _auth = FirebaseAuth.instance;
+User? user = _auth.currentUser;
 
 import '../Chat_Screen/chatscreen.dart';
 
@@ -16,6 +20,9 @@ class EmpScreen extends StatelessWidget {
   static String adress = '';
   static String nombre = '';
   static String price = '';
+  static String time = '';
+  static String description = '';
+  static String availableDays = '';
   static String favorits = '';
   static String uid = '';
   static String somthing = '';
@@ -23,8 +30,6 @@ class EmpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
     //***** nta blast l id atdir l id dyal li 7al l app ********
     FirebaseFirestore.instance
         .collection('Utilisateur')
@@ -38,21 +43,31 @@ class EmpScreen extends StatelessWidget {
         //print("wow");
       });
     });
-    return MyHomePage();
+    return MyHomePage(user!.uid.toString());
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  final String nid;
+  MyHomePage(this.nid);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection('Utilisateur').snapshots();
   Map<String, dynamic>? dt;
+
   @override
   Widget build(BuildContext context) {
+    print('here');
+    print(widget.nid);
+    final Stream<QuerySnapshot> users = FirebaseFirestore.instance
+        .collection('Utilisateur')
+        .where('price', isNotEqualTo: -1)
+        // .where('time', isEqualTo: 'Hour')
+        .snapshots();
+
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
     return Scaffold(
@@ -138,7 +153,21 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text('Something is wrong');
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 50,
+                      ),
+                      CircularProgressIndicator(
+                        color: Color(0xEB1E1F69),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text('Somethings went wrong ..'),
+                    ],
+                  );
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Column(
@@ -177,6 +206,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         //MyApp.adress = snapshot.
                         EmpScreen.email = data.docs[index]['email'];
                         EmpScreen.price = data.docs[index]['price'].toString();
+                        EmpScreen.time = data.docs[index]['time'];
+                        EmpScreen.availableDays =
+                            data.docs[index]['availableDays'];
+                        EmpScreen.description = data.docs[index]['description'];
                         EmpScreen.nombre = data.docs[index]['nombre'];
 
                         EmpScreen.uid = data.docs[index]['uid'];
@@ -204,12 +237,44 @@ class _MyHomePageState extends State<MyHomePage> {
                               title: Text(
                                 '${data.docs[index]['Lastname']}  ${data.docs[index]['Firstname']}',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                 ),
                               ),
-                              subtitle: Text(
-                                '''${data.docs[index]['Adress']}  ${data.docs[index]['job']}''',
-                                style: TextStyle(fontSize: 16),
+                              subtitle: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.grey,
+                                        size: 14,
+                                      ),
+                                      Text(
+                                        '''${data.docs[index]['Adress']}  ''',
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(1),
+                                        child: Icon(
+                                          Icons.engineering,
+                                          color: Colors.grey,
+                                          size: 14,
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '${data.docs[index]['job']}',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                               trailing: InkWell(
                                 borderRadius: BorderRadius.circular(2),
@@ -284,6 +349,7 @@ class _MyHomePageState extends State<MyHomePage> {
     dt = docSnapshot.data();
   }
 }
+<<<<<<< HEAD
 
 class Second extends StatefulWidget {
   static String routeName = "/InofDet";
@@ -600,3 +666,5 @@ class _SecondState extends State<Second> {
     );
   }
 }
+=======
+>>>>>>> 98d7268348e8ddc507198a551f109461aba10ad4
